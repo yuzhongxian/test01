@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全球生鲜卖家管理后台页面</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="{% static 'seller/css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'seller/css/xadmin.css' %}">
+
+</head>
+<body class="login-bg">
+<div class="login layui-anim layui-anim-up">
+    <div class="message">全球生鲜卖家管理后台页面</div>
+    <div id="darkbannerwrap"></div>
+
+    <form method="post" class="layui-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ register_form_obj.name }}
+        <span style="color: red">{{ register_form_obj.name.errors.0 }}</span>
+        <span id="error_msg"></span>
+        {#        <input name="username" placeholder="用户名" type="text" lay-verify="required" class="layui-input">#}
+        <hr class="hr15">
+        {{ register_form_obj.nick_name }}
+        <span style="color: red">{{ register_form_obj.nick_name.errors.0 }}</span>
+        {#        <input name="nickname" placeholder="昵称" type="text" lay-verify="required" class="layui-input">#}
+        <hr class="hr15">
+        {{ register_form_obj.password }}
+        <span style="color: red">{{ register_form_obj.password.errors.0 }}</span>
+        {#        <input name="password" lay-verify="required" placeholder="密码" type="password" class="layui-input">#}
+        <hr class="hr15">
+        {{ register_form_obj.photo }}
+        <span style="color: red">{{ register_form_obj.picture.errors.0 }}</span>
+        {#        <input name="picture"  placeholder="头像" type="file" class="layui-input" lay-verify="required">#}
+        <hr class="hr15">
+        <input type="hidden" name="login_valid" value="login_valid">
+        <hr class="hr15">
+        <input value="注册" lay-submit lay-filter="login" style="width:100%;" type="submit">
+        <hr class="hr20">
+    </form>
+{#    <p style="text-align: center; color: red;">{{ result.error }}</p>#}
+    <p style="text-align: right; ">
+        <a href="/seller/login/" style="color: darkseagreen">登录</a>
+    </p>
+</div>
+</body>
+</html>

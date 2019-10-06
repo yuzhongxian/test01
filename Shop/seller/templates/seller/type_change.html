@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>全球生鲜卖家管理后台</title>
+    <link rel="stylesheet" href="{% static 'seller/css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'seller/css/xadmin.css' %}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'seller/lib/layui/layui.js' %}" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static 'seller/js/xadmin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+</head>
+
+
+<body>
+<div class="x-body layui-anim layui-anim-up">
+    {#    1.添加 enctype  action 和 csrf_token #}
+    <form class="layui-form" method="post" action="/seller/type_change/">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ type_obj.id }}">
+        <div class="layui-form-item">
+            <label for="L_email" class="layui-form-label">
+                <span class="x-red">*</span>类型名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_email" name="type_name" required=""
+                       autocomplete="off" class="layui-input" value="{{ type_obj.name }}">
+            </div>
+            <span style="color: red">{{ error_msg }}</span>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+            </label>
+
+            <input type="submit" class="layui-btn" lay-filter="add" lay-submit="" value="保存"/>
+            <a href="/seller/type_list/" class="layui-btn">返回</a>
+
+        </div>
+    </form>
+</div>
+
+<script>
+    CKEDITOR.replace('goods_content', {uiColor: '#FFFFFF'})
+</script>
+
+</body>
+
+</html>

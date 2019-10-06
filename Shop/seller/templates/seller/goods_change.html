@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>全球生鲜卖家管理后台</title>
+    <link rel="stylesheet" href="{% static 'seller/css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'seller/css/xadmin.css' %}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'seller/lib/layui/layui.js' %}" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static 'seller/js/xadmin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+</head>
+
+
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">商品管理</a>
+        <a href="/seller/goods_list/">商品列表</a>
+      </span>
+</div>
+<div class="x-body layui-anim layui-anim-up">
+    {#    1.添加 enctype  action 和 csrf_token #}
+    <form class="layui-form" method="post" action="/seller/goods_change/" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input type="hidden" name="id" value="{{ goods_obj.id }}">
+
+        <div class="layui-form-item">
+            <label for="L_email" class="layui-form-label">
+                <span class="x-red">*</span>商品编号
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_email" name="goods_num" required=""
+                       autocomplete="off" class="layui-input" value="{{ goods_obj.goods_num }}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>商品名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_username" name="goods_name" required=""
+                       autocomplete="off" class="layui-input" value="{{ goods_obj.goods_name }}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_pass" class="layui-form-label">
+                <span class="x-red">*</span>商品原价
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_pass" name="goods_oprice" required=""
+                       autocomplete="off" class="layui-input" value="{{ goods_obj.goods_oprice }}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>商品现价
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_repass" name="goods_xprice" required=""
+                       autocomplete="off" class="layui-input" value="{{ goods_obj.goods_cprice }}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>商品库存
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_repass" name="goods_count" required=""
+                       autocomplete="off" class="layui-input" value="{{ goods_obj.goods_count }}">
+            </div>
+        </div>
+
+        {#        2.将储存方法修改成商品描述#}
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>商品描述
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_repass" name="goods_description" required=""
+                       autocomplete="off" class="layui-input" value="{{ goods_obj.goods_desc }}">
+            </div>
+        </div>
+
+
+        {#        4. 添加 multiple 属性，表示可以上传多张图片#}
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>商品缩略图
+            </label>
+            <div class="layui-input-inline">
+                <input type="file" id="L_repass" name="userfiles" required=""
+                       autocomplete="off" class="layui-input" multiple>
+            </div>
+        </div>
+
+        {#        5.将 配送地址 改成 商品类型#}
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+                <span class="x-red">*</span>商品类型
+            </label>
+            <div class="layui-input-inline">
+                <select id="L_repass" name="goods_type" required=""
+                        autocomplete="off" class="layui-input">
+                    {% for type_obj in type_obj_list %}
+                        {#当前商品的类型的id 和 遍历出来的 id 如果相同，表示之前商品类型选中的类型#}
+                        {% if type_obj.id == goods_obj.type_id %}
+                            <option selected value="{{ type_obj.id }}">{{ type_obj.name }}</option>
+                        {% else %}
+                            <option value="{{ type_obj.id }}">{{ type_obj.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {#        6. 将 商品内容，改成 商品详情 #}
+        <div class="layui-form-item layui-form-text">
+            <label for="desc" class="layui-form-label">
+                商品详情
+            </label>
+            <div class="layui-input-block">
+                <textarea placeholder="请输入内容" id="desc" name="goods_content" class="layui-textarea"
+                          required="">{{ goods_obj.goods_detail }}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+            </label>
+
+            <input type="submit" class="layui-btn" lay-filter="add" lay-submit="" value="保存"/>
+            <a href="#" onclick="javascript: history.back(-1);" class="layui-btn">返回</a>
+
+        </div>
+    </form>
+</div>
+
+<script>
+    CKEDITOR.replace('goods_content', {uiColor: '#FFFFFF'})
+</script>
+
+</body>
+
+</html>

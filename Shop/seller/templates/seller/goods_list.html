@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>全球生鲜卖家管理后台</title>
+    <link rel="stylesheet" href="{% static 'seller/css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'seller/css/xadmin.css' %}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'seller/lib/layui/layui.js' %}" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static 'seller/js/xadmin.js' %}"></script>
+</head>
+
+<body class="layui-anim layui-anim-up">
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">商品管理</a>
+        <a href="/seller/goods_add/">商品添加</a>
+      </span>
+</div>
+<div class="x-body">
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>商品序号</th>
+            <th>商品编号</th>
+            <th>商品名称</th>
+            <th>商品原价</th>
+            <th>商品现价</th>
+            <th>商品库存</th>
+            <th>商品描述</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for goods in page_obj %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ goods.goods_num }}</td>
+                <td>{{ goods.goods_name }}</td>
+                <td>{{ goods.goods_oprice }}</td>
+                <td>{{ goods.goods_cprice }}</td>
+                <td>{{ goods.goods_count }}</td>
+                <td>{{ goods.goods_desc}}</td>
+                <td>
+                    <a href="/seller/goods_change/?id={{ goods.id }}">编辑</a>
+                    <a href="#" onclick="if(confirm('确定删除')){
+                        window.location.href = '/seller/goods_delete/?id={{ goods.id }}'
+                    }">删除</a>
+{#                    <a href="/seller/goods_delete/?id={{ goods.id }}">删除</a>#}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+<div align="center">
+        页次{{ page_num }}/{{ paginator.num_pages }} 每页{{ my_num }}条 总数{{ paginator.count }}条
+        <a href="?page={{ 1 }}">首页</a>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
+        {% else %}
+            <a href="#">上一页</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">下一页</a>
+        {% else %}
+            <a href="#">下一页</a>
+        {% endif %}
+        <a href="?page={{ paginator.num_pages }}">尾页</a>
+    </div>
+</body>
+
+</html>
