@@ -26,10 +26,10 @@
         <i title="展开左侧栏" class="iconfont">&#xe699;</i>
     </div>
     <ul class="layui-nav right" lay-filter="">
-        <li class="layui-nav-item"><img src="{% static seller_obj.picture.name %}" alt="" width="30px" height="30px">
+        <li class="layui-nav-item"><img src="{% static seller_obj.photo.name %}" alt="" width="30px" height="30px">
         </li>
         <li class="layui-nav-item">
-            <a href="javascript:;">{{ request.session.name }}</a>
+            <a href="javascript:;">{{ request.session.seller_name }}</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
                 <dd><a href="#">修改密码</a></dd>
                 <dd><a href="/seller/logout/">退出</a></dd>
@@ -106,7 +106,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <div class="page-content-bg"></div>
 <!-- 右侧主体结束 -->

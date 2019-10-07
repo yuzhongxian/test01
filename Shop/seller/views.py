@@ -3,6 +3,7 @@ from seller import forms
 from seller import models
 import time
 import hashlib
+import datetime
 
 
 # 加密函数
@@ -73,3 +74,11 @@ def login(request):
                 return redirect('/seller/index/')
             error_msg = '用户名或密码错误'
     return render(request, 'seller/login.html', {'login_form_obj': login_form_obj, 'error_msg': error_msg})
+
+
+# 首页
+def index(request):
+    login_time = datetime.datetime.now()
+    seller_id = request.session.get('seller_id')
+    seller_obj = models.Seller.objects.get(id=seller_id)
+    return render(request, 'seller/index.html', {'seller_obj': seller_obj, 'login_time': login_time})
