@@ -6,6 +6,18 @@ import hashlib
 import datetime
 
 
+# 登录权限 未登录用户跳转至登录页 已登录用户进入对应页
+def check_login(func):
+    def inner(request):
+        name = request.sesson.get('seller_name')
+        if name:
+            func(request)
+        else:
+            return redirect('/seller/login')
+
+    return inner
+
+
 # 加密函数
 def pwd_jm(password):
     md5 = hashlib.md5()
@@ -77,6 +89,7 @@ def login(request):
 
 
 # 首页
+@check_login
 def index(request):
     login_time = datetime.datetime.now()
     seller_id = request.session.get('seller_id')
@@ -85,6 +98,7 @@ def index(request):
 
 
 # 登出
+@check_login
 def logout(request):
     # 删除 session
     request.session.flush()

@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d498bd6-c1b2-4ba7-ab46-a29e77818d31" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seller/templates/seller/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/seller/templates/seller/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/seller/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/seller/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seller/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/seller/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -73,13 +70,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/seller/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="85" lean-forward="true" selection-start-line="85" selection-end-line="85" />
+            <state relative-caret-position="540">
+              <caret line="100" column="12" selection-start-line="100" selection-start-column="12" selection-end-line="100" selection-end-column="12" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
                 <element signature="e#103#214#0" />
                 <element signature="e#1759#1848#0" />
                 <element signature="e#2650#2693#0" />
+                <element signature="e#2928#3000#0" />
               </folding>
             </state>
           </provider>
@@ -298,7 +296,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1570331328597</updated>
-      <workItem from="1570331331168" duration="14822000" />
+      <workItem from="1570331331168" duration="15073000" />
     </task>
     <task id="LOCAL-00001" summary="新增登录form组件&#10;添加登录路由&#10;完成登录功能">
       <created>1570426342944</created>
@@ -321,11 +319,18 @@
       <option name="project" value="LOCAL" />
       <updated>1570434446458</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="新增登出">
+      <created>1570434956997</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1570434956997</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14822000" />
+    <option name="totallyTimeSpent" value="15073000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
@@ -363,7 +368,8 @@
     <MESSAGE value="新增登录form组件&#10;添加登录路由&#10;完成登录功能" />
     <MESSAGE value="新增首页" />
     <MESSAGE value="修改调试问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改调试问题" />
+    <MESSAGE value="新增登出" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增登出" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/manage.py">
@@ -483,13 +489,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/seller/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="85" lean-forward="true" selection-start-line="85" selection-end-line="85" />
+        <state relative-caret-position="540">
+          <caret line="100" column="12" selection-start-line="100" selection-start-column="12" selection-end-line="100" selection-end-column="12" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
             <element signature="e#103#214#0" />
             <element signature="e#1759#1848#0" />
             <element signature="e#2650#2693#0" />
+            <element signature="e#2928#3000#0" />
           </folding>
         </state>
       </provider>
