@@ -82,3 +82,11 @@ def index(request):
     seller_id = request.session.get('seller_id')
     seller_obj = models.Seller.objects.get(id=seller_id)
     return render(request, 'seller/index.html', {'seller_obj': seller_obj, 'login_time': login_time})
+
+
+# 登出
+def logout(request):
+    # 删除 session
+    request.session.flush()
+    # 重定向
+    return redirect('/seller/login/')

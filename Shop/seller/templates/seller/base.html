@@ -96,7 +96,7 @@
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
                 <blockquote class="layui-elem-quote">欢迎管理员：
-                    <span class="x-red">{{ request.session.name }}</span>！登录时间:
+                    <span class="x-red">{{ request.session.seller_name }}</span>！登录时间:
                     <span class="x-red">{{ login_time|date:'Y-m-d H:i:s' }}</span>
                 </blockquote>
                 {% block content %}

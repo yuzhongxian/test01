@@ -3,6 +3,6 @@ from seller import views
 
 urlpatterns = [
     path('register/', views.register),  # 注册
-    path('login/', views.register),  # 登录
-    path('index/', views.register),  # 首页
+    path('login/', views.login),  # 登录
+    path('index/', views.index),  # 首页
 ]
