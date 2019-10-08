@@ -13,3 +13,10 @@ class Seller(models.Model):
     def __str__(self):
         return '<obj name:{}>'.format(self.name)
 
+
+# 商品类型
+class GoodType(models.Model):
+    name = models.CharField(max_length=32)  # 类型名称
+
+    def __str__(self):
+        return '<obj name:{}>'.format(self.name)

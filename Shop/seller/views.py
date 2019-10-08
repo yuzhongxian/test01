@@ -6,7 +6,7 @@ import hashlib
 import datetime
 
 
-# 登录权限 未登录用户跳转至登录页 已登录用户进入对应页
+# 登录权限 未登录用户跳转至登录页 已登录用户进入对应页 (装饰器实现)
 def check_login(func):
     def inner(request):
         name = request.session.get('seller_name')
@@ -104,3 +104,6 @@ def logout(request):
     request.session.flush()
     # 重定向
     return redirect('/seller/login/')
+
+
+# 商品类型
