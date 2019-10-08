@@ -4,6 +4,7 @@ from seller import models
 import time
 import hashlib
 import datetime
+from django.core.paginator import Paginator
 
 
 # 登录权限 未登录用户跳转至登录页 已登录用户进入对应页 (装饰器实现)
@@ -107,3 +108,34 @@ def logout(request):
 
 
 # 商品类型
+# 商品类型列表
+def type_list(request):
+    type_obj_list = models.GoodType.objects.all()
+    # 每页 5 条
+    each_num = 5
+    paginator = Paginator(type_obj_list, each_num)
+    num_pages = paginator.num_pages
+    page_num = 1
+    try:
+        page_num = int(request.GET.get('page', 1))
+        page_obj = paginator.page(page_num)
+    except Exception:
+        if page_num > num_pages:
+            page_num = num_pages
+        else:
+            page_num = 1
+        page_obj = paginator.page(page_num)
+    return render(request, 'seller/type_list.html', locals())
+
+
+# 商品添加
+def type_add(request):
+    error_msg = ''
+    if request.method == 'POST':
+        type_name = request.POST.get('type_name')
+        type_obj = models.GoodType.objects.filter(name=type_name).first()
+        if not type_obj:
+            models.GoodType.objects.create(name=type_name)
+            return redirect('/seller/type_list')
+        error_msg = '此类型已存在'
+    return render(request, 'seller/type_add.html', {'error_msg': error_msg})
