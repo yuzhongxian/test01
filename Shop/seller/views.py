@@ -180,3 +180,6 @@ def type_delete(request):
     type_obj = models.GoodType.objects.get(id=type_id)
     type_obj.delete()
     return redirect('/seller/type_list/')
+
+
+# 商品
