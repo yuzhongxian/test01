@@ -41,25 +41,21 @@
 </div>
 <script>
     $(function () {
-        $('#L_email').click(function () {
-            // 获取文本框中的内容
-            // 发送请求
-            var content = $("#L_email").val();
+        $('#L_email').blur(function () {
+            var type_name = $('#L_email').val();
             $.ajax({
-                url: '/seller/type_add_ajax/',
+                url: '/seller/type_ajax/',
                 type: 'GET',
-                data: {'name': content},
+                data: {'type_name': type_name},
                 success: function (res) {
-                    {#alert('成功了')#}
-                    if (res.status == 'true') {
-                        {#alert('此商品已存在');#}
-                        $('#error').text('此商品类型已经存在')
+                    if (res.status === 'false') {
+                        $('#error').text('此类型已存在');
                     } else {
-                        $('#error').text('')
+                        $('#error').text('');
                     }
                 },
                 error: function (res) {
-                    $('#error').text('')
+                    alert('请求失败')
                 }
             })
         })

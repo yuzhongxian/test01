@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from seller import forms
 from seller import models
 import time
@@ -131,11 +132,51 @@ def type_list(request):
 # 商品添加
 def type_add(request):
     error_msg = ''
+    type_name = ''
     if request.method == 'POST':
         type_name = request.POST.get('type_name')
         type_obj = models.GoodType.objects.filter(name=type_name).first()
         if not type_obj:
             models.GoodType.objects.create(name=type_name)
             return redirect('/seller/type_list')
-        error_msg = '此类型已存在'
-    return render(request, 'seller/type_add.html', {'error_msg': error_msg})
+        error_msg = '此类型已存在,请修改商品类型'
+    return render(request, 'seller/type_add.html', {'error_msg': error_msg, 'type_name': type_name})
+
+
+# 商品类型验证ajax
+def type_ajax(request):
+    dic = {
+        'status': 'true'
+    }
+    type_name = request.GET.get('type_name')
+    type_obj = models.GoodType.objects.filter(name=type_name).first()
+    if type_obj:
+        dic['status'] = 'false'
+    return JsonResponse(dic)
+
+
+# 商品类型修改
+def type_update(request):
+    if request.method == 'GET':
+        type_id = request.GET.get('id')
+        type_obj = models.GoodType.objects.get(id=type_id)
+        return render(request, 'seller/type_change.html', {'type_name': type_obj.name})
+    else:
+        type_id = request.POST.get('id')
+        type_name = request.POST.get('type_name')
+        type_obj = models.GoodType.objects.filter(name=type_name).first()
+        if not type_obj:
+            type_obj = models.GoodType.objects.get(id=type_id)
+            type_obj.name = type_name
+            type_obj.save()
+            return redirect('/seller/type_list/')
+        error_msg = '此类型已存在，请重新输入'
+        return render(request, 'seller/type_change.html', {'type_name': type_name, 'error_msg': error_msg})
+
+
+# 商品类型删除
+def type_delete(request):
+    type_id = request.GET.get('id')
+    type_obj = models.GoodType.objects.get(id=type_id)
+    type_obj.delete()
+    return redirect('/seller/type_list/')

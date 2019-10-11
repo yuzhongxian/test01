@@ -27,9 +27,9 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="L_email" name="type_name" required=""
-                       autocomplete="off" class="layui-input" value="{{ type_obj.name }}">
+                       autocomplete="off" class="layui-input" value="{{ type_name }}">
             </div>
-            <span style="color: red">{{ error_msg }}</span>
+            <span style="color: red" id="error_msg">{{ error_msg }}</span>
         </div>
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label">
@@ -41,6 +41,29 @@
         </div>
     </form>
 </div>
+<script>
+    $(function () {
+        $('#L_email').blur(function () {
+            var type_name = $('#L_email').val();
+            $.ajax({
+                url: '/seller/type_ajax/',
+                type: 'GET',
+                data: {'type_name': type_name},
+                success: function (res) {
+                    if (res.status === 'false') {
+                        $('#error_msg').text('此类型已存在')
+                    }
+                    else {
+                        $('#error_msg').text('')
+                    }
+                },
+                error: function (res) {
+                    alert('请求失败')
+                }
+            })
+        })
+    })
+</script>
 
 <script>
     CKEDITOR.replace('goods_content', {uiColor: '#FFFFFF'})
