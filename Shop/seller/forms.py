@@ -1,7 +1,7 @@
 # form 组件
 from django import forms
 from django.core.validators import RegexValidator
-from django.forms import widgets, ValidationError
+from django.forms import widgets as wid, ValidationError
 from seller import models
 
 
@@ -18,7 +18,7 @@ class RegisterForm(forms.Form):
             'min_length': '用户名至少输入3位',
             'max_length': '用户名至多输入32位'
         },
-        widget=widgets.TextInput(attrs={'placeholder': "用户名", 'class': "layui-input", 'id': 'name'})
+        widget=wid.TextInput(attrs={'placeholder': "用户名", 'class': "layui-input", 'id': 'name'})
     )
     nick_name = forms.CharField(
         required=True,
@@ -31,17 +31,17 @@ class RegisterForm(forms.Form):
         validators=[
             RegexValidator(r'^(?!_)[a-zA-Z0-9_\u4e00-\u9fa5]{1,32}$', '昵称由数、字母、下划线、汉字组成')
         ],
-        widget=widgets.TextInput(attrs={'placeholder': "昵称", 'class': "layui-input"})
+        widget=wid.TextInput(attrs={'placeholder': "昵称", 'class': "layui-input"})
     )
     password = forms.CharField(
         required=True,
         max_length=32,
         min_length=6,
-        widget=widgets.PasswordInput(attrs={'placeholder': "密码", 'class': "layui-input"})
+        widget=wid.PasswordInput(attrs={'placeholder': "密码", 'class': "layui-input"})
     )
     photo = forms.ImageField(
         required=True,
-        widget=widgets.FileInput(attrs={'class': 'layui-input'})
+        widget=wid.FileInput(attrs={'class': 'layui-input'})
     )
 
     def clean(self):
@@ -69,11 +69,25 @@ class LoginForm(forms.Form):
             'min_length': '用户名至少输入3位',
             'max_length': '用户名至多输入32位'
         },
-        widget=widgets.TextInput(attrs={'placeholder': "用户名", 'class': "layui-input", 'id': 'name'})
+        widget=wid.TextInput(attrs={'placeholder': "用户名", 'class': "layui-input", 'id': 'name'})
     )
     password = forms.CharField(
         required=True,
         max_length=32,
         min_length=6,
-        widget=widgets.PasswordInput(attrs={'placeholder': "密码", 'class': "layui-input"})
+        widget=wid.PasswordInput(attrs={'placeholder': "密码", 'class': "layui-input"})
     )
+
+
+class GoodsForm(forms.Form):
+    class Meta:
+        model = models.Goods
+        fields = ['goods_num', 'goods_name', 'goods_oprice', 'goods_cprice', 'goods_count', 'goods_desc']
+        widgets = {
+            'goods_num': wid.TextInput(attrs={'class': 'layui-input', 'id': 'L_email', 'autocomplete': 'off'}),
+            'goods_name': wid.TextInput(attrs={'class': 'layui-input', 'id': 'L_username', 'autocomplete': 'off'}),
+            'goods_oprice': wid.TextInput(attrs={'class': 'layui-input', 'id': 'L_pass', 'autocomplete': 'off'}),
+            'goods_cprice': wid.TextInput(attrs={'class': 'layui-input', 'id': 'L_pass', 'autocomplete': 'off'}),
+            'goods_count': wid.NumberInput(attrs={'class': 'layui-input', 'id': 'L_pass', 'autocomplete': 'off'}),
+            'goods_desc': wid.TextInput(attrs={'class': 'layui-input', 'id': 'L_repass', 'autocomplete': 'off'}),
+        }

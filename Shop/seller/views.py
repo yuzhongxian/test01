@@ -111,7 +111,7 @@ def logout(request):
 # 商品类型
 # 商品类型列表
 def type_list(request):
-    type_obj_list = models.GoodType.objects.all()
+    type_obj_list = models.GoodType.objects.all().order_by('-id')
     # 每页 5 条
     each_num = 5
     paginator = Paginator(type_obj_list, each_num)
@@ -126,7 +126,7 @@ def type_list(request):
         else:
             page_num = 1
         page_obj = paginator.page(page_num)
-    return render(request, 'seller/type_list.html', locals())
+    return render(request, 'seller/type_list.html/?page={}'.format(page_num), locals())
 
 
 # 商品添加
@@ -177,9 +177,74 @@ def type_update(request):
 # 商品类型删除
 def type_delete(request):
     type_id = request.GET.get('id')
+    page = request.GET.get('page')
     type_obj = models.GoodType.objects.get(id=type_id)
     type_obj.delete()
-    return redirect('/seller/type_list/')
+    return redirect('/seller/type_list/?page=' + page)
 
 
 # 商品
+# 商品列表
+def goods_list(request):
+    goods_obj_list = models.Goods.objects.all().order_by('-id')
+    each_num = 5
+    paginator = Paginator(goods_obj_list, each_num)
+    num_pages = paginator.num_pages
+    page_num = 1
+    try:
+        page_num = int(request.GET.get('page', 1))
+        page_obj = paginator.page(page_num)
+    except Exception:
+        if page_num > num_pages:
+            page_num = num_pages
+        else:
+            page_num = 1
+        page_obj = paginator.page(page_num)
+    return render(request, 'seller/goods_add.html/?page_num={}'.format(page_num), locals())
+
+
+# 商品添加
+def goods_add(request):
+    goods_form_obj = forms.GoodsForm()
+    if request.method == 'POST':
+        goods_form_obj = forms.GoodsForm(request.POST)
+        if goods_form_obj.is_valid():
+            seller_id = request.session.get('seller_id')
+            goods_name = request.POST.get('goods_name')
+            goods_num = request.POST.get('goods_num')
+            goods_oprice = request.POST.get('goods_oprice')
+            goods_cprice = request.POST.get('goods_cprice')
+            goods_count = request.POST.get('goods_count')
+            goods_desc = request.POST.get('goods_desc')
+            goods_detail = request.POST.get('goods_detail')
+            type_id = request.POST.get('type_id')
+            image_lists = request.POST.get('userfiles')
+            goods_obj = models.Goods.objects.create(
+                goods_num=goods_num,
+                goods_name=goods_name,
+                goods_oprice=goods_oprice,
+                goods_cprice=goods_cprice,
+                goods_count=goods_count,
+                goods_desc=goods_desc,
+                goods_detail=goods_detail,
+                type_id=type_id,
+                seller_id=seller_id
+            )
+            for image in image_lists:
+                time_tmp = str(time.time())
+                path = 'static/images/' + time_tmp + image.name
+                with open(path, 'wb') as fp:
+                    for content in image.chunks():
+                        fp.write(content)
+                models.GoodsImage.objects.create(
+                    image_path='images/' + time_tmp + image.name,
+                    goods=goods_obj
+                )
+            return redirect('/seller/goods_list/')
+    return render(request, 'seller/goods_add.html', goods_form_obj)
+
+
+# 商品删除
+def goods_delete(request):
+    if request.method == 'GET':
+        goods_id = request.GET.get(id)

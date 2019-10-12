@@ -39,3 +39,9 @@ class Goods(models.Model):
 
     def __str__(self):
         return '<object name:{}>'.format(self.goods_name)
+
+
+class GoodsImage(models.Model):
+    image_path = models.CharField(max_length=128)  # 图片地址
+    # 关系 图像 商品  多对一
+    goods = models.ForeignKey(to='Goods', on_delete=models.CASCADE)
