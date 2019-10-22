@@ -42,13 +42,14 @@
                 <td>{{ goods.goods_oprice }}</td>
                 <td>{{ goods.goods_cprice }}</td>
                 <td>{{ goods.goods_count }}</td>
-                <td>{{ goods.goods_desc}}</td>
+                <td>{{ goods.goods_desc }}</td>
+                <td>{{ goods.goods_detail|safe }}</td>
                 <td>
                     <a href="/seller/goods_change/?id={{ goods.id }}">编辑</a>
                     <a href="#" onclick="if(confirm('确定删除')){
-                        window.location.href = '/seller/goods_delete/?id={{ goods.id }}'
-                    }">删除</a>
-{#                    <a href="/seller/goods_delete/?id={{ goods.id }}">删除</a>#}
+                            window.location.href = '/seller/goods_delete/?id={{ goods.id }}'
+                            }">删除</a>
+                    {#                    <a href="/seller/goods_delete/?id={{ goods.id }}">删除</a>#}
                 </td>
             </tr>
         {% endfor %}
@@ -57,20 +58,20 @@
 
 </div>
 <div align="center">
-        页次{{ page_num }}/{{ paginator.num_pages }} 每页{{ my_num }}条 总数{{ paginator.count }}条
-        <a href="?page={{ 1 }}">首页</a>
-        {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
-        {% else %}
-            <a href="#">上一页</a>
-        {% endif %}
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">下一页</a>
-        {% else %}
-            <a href="#">下一页</a>
-        {% endif %}
-        <a href="?page={{ paginator.num_pages }}">尾页</a>
-    </div>
+    页次{{ page_num }}/{{ paginator.num_pages }} 每页{{ each_num }}条 总数{{ paginator.count }}条
+    <a href="?page={{ 1 }}">首页</a>
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
+    {% else %}
+        <a href="#">上一页</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">下一页</a>
+    {% else %}
+        <a href="#">下一页</a>
+    {% endif %}
+    <a href="?page={{ paginator.num_pages }}">尾页</a>
+</div>
 </body>
 
 </html>

@@ -34,7 +34,7 @@
                 <span class="x-red">*</span>商品编号
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_email" name="goods_num" required=""
+                <input type="text" id="goods_num" name="goods_num" required=""
                        autocomplete="off" class="layui-input" value="{{ goods_obj.goods_num }}">
             </div>
         </div>
@@ -44,7 +44,7 @@
                 <span class="x-red">*</span>商品名称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_username" name="goods_name" required=""
+                <input type="text" id="goods_name" name="goods_name" required=""
                        autocomplete="off" class="layui-input" value="{{ goods_obj.goods_name }}">
             </div>
         </div>
@@ -54,7 +54,7 @@
                 <span class="x-red">*</span>商品原价
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_pass" name="goods_oprice" required=""
+                <input type="text" id="goods_oprice" name="goods_oprice" required=""
                        autocomplete="off" class="layui-input" value="{{ goods_obj.goods_oprice }}">
             </div>
         </div>
@@ -74,7 +74,7 @@
                 <span class="x-red">*</span>商品库存
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_repass" name="goods_count" required=""
+                <input type="text" id="goods_count" name="goods_count" required=""
                        autocomplete="off" class="layui-input" value="{{ goods_obj.goods_count }}">
             </div>
         </div>
@@ -85,7 +85,7 @@
                 <span class="x-red">*</span>商品描述
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="L_repass" name="goods_description" required=""
+                <input type="text" id="goods_desc" name="goods_desc" required=""
                        autocomplete="off" class="layui-input" value="{{ goods_obj.goods_desc }}">
             </div>
         </div>
@@ -97,7 +97,7 @@
                 <span class="x-red">*</span>商品缩略图
             </label>
             <div class="layui-input-inline">
-                <input type="file" id="L_repass" name="userfiles" required=""
+                <input type="file" id="userfiles" name="userfiles" required=""
                        autocomplete="off" class="layui-input" multiple>
             </div>
         </div>
@@ -128,8 +128,8 @@
                 商品详情
             </label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" id="desc" name="goods_content" class="layui-textarea"
-                          required="">{{ goods_obj.goods_detail }}</textarea>
+                <textarea placeholder="请输入内容" id="goods_detail" name="goods_detail" class="layui-textarea"
+                          required="">{{ goods_obj.goods_detail | safe}}</textarea>
             </div>
         </div>
 

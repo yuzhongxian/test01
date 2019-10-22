@@ -104,7 +104,7 @@
                 <span class="x-red">*</span>商品类型
             </label>
             <div class="layui-input-inline">
-                <select id="L_repass" name="goods_type" required=""
+                <select id="goods_type" name="goods_type" required=""
                         autocomplete="off" class="layui-input">
                     {% for type_obj in type_obj_list %}
                         <option value="{{ type_obj.id }}">{{ type_obj.name }}</option>
@@ -119,7 +119,7 @@
                 商品详情
             </label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" id="desc" name="goods_content" class="layui-textarea"
+                <textarea placeholder="请输入内容" id="goods_detail" name="goods_detail" class="layui-textarea"
                           required=""></textarea>
             </div>
         </div>
@@ -135,8 +135,8 @@
 </div>
 <script>
     $(function () {
-        $('#L_email').blur(function () {
-            var goods_num = $('#L_email').val();
+        $('#goods_num').blur(function () {
+            var goods_num = $('#goods_num').val();
             $.ajax({
                 url: '/seller/goods_add_ajax/',
                 type: 'GET',
