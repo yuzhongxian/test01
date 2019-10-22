@@ -133,26 +133,26 @@
         </div>
     </form>
 </div>
-<script>
-    $(function () {
-        $('#goods_num').blur(function () {
-            var goods_num = $('#goods_num').val();
-            $.ajax({
-                url: '/seller/goods_add_ajax/',
-                type: 'GET',
-                data: {'goods_num': goods_num},
-                success: function (res) {
-                    if (res.status === 'true') {
-                        window.location.href = '/seller/goods_change/?id=' + res.goods_id
-                    }
-                },
-                error: function (res) {
-                    alert('错误')
-                }
-            })
-        })
-    })
-</script>
+{#<script>#}
+{#    $(function () {#}
+{#        $('#goods_num').blur(function () {#}
+{#            var goods_num = $('#goods_num').val();#}
+{#            $.ajax({#}
+{#                url: '/seller/goods_add_ajax/',#}
+{#                type: 'GET',#}
+{#                data: {'goods_num': goods_num},#}
+{#                success: function (res) {#}
+{#                    if (res.status === 'true') {#}
+{#                        window.location.href = '/seller/goods_change/?id=' + res.goods_id#}
+{#                    }#}
+{#                },#}
+{#                error: function (res) {#}
+{#                    alert('错误')#}
+{#                }#}
+{#            })#}
+{#        })#}
+{#    })#}
+{#</script>#}
 
 
 <script>

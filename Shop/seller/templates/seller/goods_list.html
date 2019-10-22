@@ -30,6 +30,7 @@
             <th>商品现价</th>
             <th>商品库存</th>
             <th>商品描述</th>
+            <th>商品详情</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -45,7 +46,7 @@
                 <td>{{ goods.goods_desc }}</td>
                 <td>{{ goods.goods_detail|safe }}</td>
                 <td>
-                    <a href="/seller/goods_change/?id={{ goods.id }}">编辑</a>
+                    <a href="/seller/goods_update/?id={{ goods.id }}">编辑</a>
                     <a href="#" onclick="if(confirm('确定删除')){
                             window.location.href = '/seller/goods_delete/?id={{ goods.id }}'
                             }">删除</a>

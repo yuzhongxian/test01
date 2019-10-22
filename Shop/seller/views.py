@@ -127,7 +127,7 @@ def type_list(request):
         else:
             page_num = 1
         page_obj = paginator.page(page_num)
-    return render(request, 'seller/type_list.html/?page={}'.format(page_num), locals())
+    return render(request, 'seller/type_list.html', locals())
 
 
 # 商品添加
@@ -201,7 +201,7 @@ def goods_list(request):
         else:
             page_num = 1
         page_obj = paginator.page(page_num)
-    return render(request, 'seller/goods_add.html/?page={}'.format(page_num), locals())
+    return render(request, 'seller/goods_list.html', locals())
 
 
 # 商品添加
@@ -219,8 +219,8 @@ def goods_add(request):
         goods_count = request.POST.get('goods_count')
         goods_desc = request.POST.get('goods_desc')
         goods_detail = request.POST.get('goods_detail')
-        type_id = request.POST.get('type_id')
-        image_lists = request.POST.get('userfiles')
+        type_id = request.POST.get('goods_type')
+        image_lists = request.FILES.getlist('userfiles')
         goods_obj = models.Goods.objects.create(
             goods_num=goods_num,
             goods_name=goods_name,
@@ -274,8 +274,8 @@ def goods_update(request):
         goods_cprice = request.POST.get('goods_cprice')
         goods_desc = request.POST.get('goods_desc')
         goods_detail = request.POST.get('goods_detail')
-        type_id = request.POST.get('type_id')
-        image_lists = request.POST.get('userfiles')
+        type_id = request.POST.get('goods_type')
+        image_lists = request.FILES.getlist('userfiles')
         goods_obj = models.Goods.objects.get(id=goods_id)
         goods_obj.goods_num = goods_num
         goods_obj.goods_name = goods_name
