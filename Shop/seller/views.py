@@ -6,6 +6,7 @@ import time
 import hashlib
 import datetime
 from django.core.paginator import Paginator
+import os
 
 
 # 登录权限 未登录用户跳转至登录页 已登录用户进入对应页 (装饰器实现)
@@ -200,7 +201,7 @@ def goods_list(request):
         else:
             page_num = 1
         page_obj = paginator.page(page_num)
-    return render(request, 'seller/goods_add.html/?page_num={}'.format(page_num), locals())
+    return render(request, 'seller/goods_add.html/?page={}'.format(page_num), locals())
 
 
 # 商品添加
@@ -246,5 +247,56 @@ def goods_add(request):
 
 # 商品删除
 def goods_delete(request):
+    goods_id = request.GET.get(id)
+    page = request.GET.get('page')
+    image_list = models.GoodsImage.objects.filter(goods_id=goods_id)
+    for image in image_list:
+        path = 'static/' + image.image_path
+        os.remove(path)
+    image_list.delete()
+    models.Goods.objects.get(id=goods_id).delete()
+    return redirect('/seller/goods_list/?page={}'.format(page))
+
+
+def goods_update(request):
     if request.method == 'GET':
-        goods_id = request.GET.get(id)
+        goods_id = request.GET.get('id')
+        goods_obj = models.Goods.objects.get(id=goods_id)
+        return render(request, 'seller/goods_change.html', {'goods_obj': goods_obj})
+    if request.method == 'POST':
+        goods_id = request.POST.get('id')
+        goods_num = request.POST.get('goods_num')
+        goods_name = request.POST.get('goods_name')
+        goods_count = request.POST.get('goods_count')
+        goods_oprice = request.POST.get('goods_oprice')
+        goods_cprice = request.POST.get('goods_cprice')
+        goods_desc = request.POST.get('goods_desc')
+        goods_detail = request.POST.get('goods_detail')
+        type_id = request.POST.get('type_id')
+        image_lists = request.POST.get('userfiles')
+        goods_obj = models.Goods.objects.get(id=goods_id)
+        goods_obj.goods_num = goods_num
+        goods_obj.goods_name = goods_name
+        goods_obj.goods_count = goods_count
+        goods_obj.goods_detail = goods_detail
+        goods_obj.goods_cprice = goods_cprice
+        goods_obj.goods_oprice = goods_oprice
+        goods_obj.goods_desc = goods_desc
+        goods_obj.type_id = type_id
+        goods_obj.save()
+        imgs = models.GoodsImage.objects.filter(goods_id=goods_id)
+        for img in imgs:
+            path = 'static/' + img.image_path
+            os.remove(path)
+        imgs.delete()
+        for img in image_lists:
+            tmp_time = str(time.time())
+            path = 'static/images/' + tmp_time + img.name
+            with open(path, 'wb') as fp:
+                for content in img.chunks():
+                    fp.write(content)
+            models.GoodsImage.objects.create(
+                image_path= 'images/' + tmp_time + img.name,
+                goods_id=goods_id
+            )
+        return redirect('/seller/goods_list/')
