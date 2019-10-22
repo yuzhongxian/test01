@@ -206,43 +206,44 @@ def goods_list(request):
 
 # 商品添加
 def goods_add(request):
-    goods_form_obj = forms.GoodsForm()
+    # goods_form_obj = forms.GoodsForm()
+    type_obj_list = models.GoodType.objects.all()
     if request.method == 'POST':
-        goods_form_obj = forms.GoodsForm(request.POST)
-        if goods_form_obj.is_valid():
-            seller_id = request.session.get('seller_id')
-            goods_name = request.POST.get('goods_name')
-            goods_num = request.POST.get('goods_num')
-            goods_oprice = request.POST.get('goods_oprice')
-            goods_cprice = request.POST.get('goods_cprice')
-            goods_count = request.POST.get('goods_count')
-            goods_desc = request.POST.get('goods_desc')
-            goods_detail = request.POST.get('goods_detail')
-            type_id = request.POST.get('type_id')
-            image_lists = request.POST.get('userfiles')
-            goods_obj = models.Goods.objects.create(
-                goods_num=goods_num,
-                goods_name=goods_name,
-                goods_oprice=goods_oprice,
-                goods_cprice=goods_cprice,
-                goods_count=goods_count,
-                goods_desc=goods_desc,
-                goods_detail=goods_detail,
-                type_id=type_id,
-                seller_id=seller_id
+        # goods_form_obj = forms.GoodsForm(request.POST)
+        # if goods_form_obj.is_valid():
+        seller_id = request.session.get('seller_id')
+        goods_name = request.POST.get('goods_name')
+        goods_num = request.POST.get('goods_num')
+        goods_oprice = request.POST.get('goods_oprice')
+        goods_cprice = request.POST.get('goods_cprice')
+        goods_count = request.POST.get('goods_count')
+        goods_desc = request.POST.get('goods_desc')
+        goods_detail = request.POST.get('goods_detail')
+        type_id = request.POST.get('type_id')
+        image_lists = request.POST.get('userfiles')
+        goods_obj = models.Goods.objects.create(
+            goods_num=goods_num,
+            goods_name=goods_name,
+            goods_oprice=goods_oprice,
+            goods_cprice=goods_cprice,
+            goods_count=goods_count,
+            goods_desc=goods_desc,
+            goods_detail=goods_detail,
+            type_id=type_id,
+            seller_id=seller_id
+        )
+        for image in image_lists:
+            time_tmp = str(time.time())
+            path = 'static/images/' + time_tmp + image.name
+            with open(path, 'wb') as fp:
+                for content in image.chunks():
+                    fp.write(content)
+            models.GoodsImage.objects.create(
+                image_path='images/' + time_tmp + image.name,
+                goods=goods_obj
             )
-            for image in image_lists:
-                time_tmp = str(time.time())
-                path = 'static/images/' + time_tmp + image.name
-                with open(path, 'wb') as fp:
-                    for content in image.chunks():
-                        fp.write(content)
-                models.GoodsImage.objects.create(
-                    image_path='images/' + time_tmp + image.name,
-                    goods=goods_obj
-                )
-            return redirect('/seller/goods_list/')
-    return render(request, 'seller/goods_add.html', goods_form_obj)
+        return redirect('/seller/goods_list/')
+    return render(request, 'seller/goods_add.html', {'type_obj_list': type_obj_list})
 
 
 # 商品删除
@@ -262,7 +263,8 @@ def goods_update(request):
     if request.method == 'GET':
         goods_id = request.GET.get('id')
         goods_obj = models.Goods.objects.get(id=goods_id)
-        return render(request, 'seller/goods_change.html', {'goods_obj': goods_obj})
+        type_obj_list = models.GoodType.objects.all()
+        return render(request, 'seller/goods_change.html', {'goods_obj': goods_obj, 'type_obj_list': type_obj_list})
     if request.method == 'POST':
         goods_id = request.POST.get('id')
         goods_num = request.POST.get('goods_num')
@@ -296,7 +298,7 @@ def goods_update(request):
                 for content in img.chunks():
                     fp.write(content)
             models.GoodsImage.objects.create(
-                image_path= 'images/' + tmp_time + img.name,
+                image_path='images/' + tmp_time + img.name,
                 goods_id=goods_id
             )
         return redirect('/seller/goods_list/')
